@@ -100,7 +100,6 @@ class minecraft(
     owner  => $user,
     group  => $group,
     mode   => '0664',
-    content => template('minecraft/server.properties.erb'),
   } -> Minecraft::Server_prop<| |>
 
   # determine whether to use chkconfig or sysv-rc-conf package
