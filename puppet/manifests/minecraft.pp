@@ -9,6 +9,12 @@ group { "puppet":
 }
 File { owner => 0, group => 0, mode => 0644 }
 
+exec { "apt-update":
+    command => "/usr/bin/apt-get update",
+}
+
+Exec["apt-update"] -> Package <| |>
+
 # Instantiate the 'minecraft' class to do our basic server setup
 class { 'minecraft': }
 
