@@ -12,7 +12,15 @@ it will be hosted.
 Prerequisites
 -------------
 
-  $ sudo apt-get install git-core vagrant puppet
+  $ sudo apt-get install git-core vagrant
+  
+Vagrant 1.1.5 or later is required.  If you have an earlier version of
+vagrant:
+
+  $ wget http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_i686.deb
+  $ sudo dpkg -i vagrant_i686.deb
+
+For other vagrant downloads, see http://downloads.vagrantup.com/.
 
 Customizing
 -----------
@@ -73,10 +81,18 @@ Then, run your Minecraft client and connect to the server at
 Deploying
 ---------
 
-Use ssh to open a shell on your remote server, which ideally should
-also be running Ubuntu 12.04 LTS, just like your Vagrant box.  Use 
-git clone to pull down your fork of the Minecraft environment, and 
-switch to your branch.
+This project has been tested on Ubuntu 12.04 LTS.  Other distributions
+may also work.
+
+Puppet version 3 is required.  To install puppet:
+
+    $ wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
+    $ sudo dpgk -i puppetlabs-release-precise.deb
+    $ sudo apt-get update
+    $ sudo apt-get install puppet
+
+Use ssh to open a shell on your remote server.  Use git clone to pull down 
+your fork of the Minecraft environment, and switch to your branch.
 
 Run puppet in standalone mode:
 
