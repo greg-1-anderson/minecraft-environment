@@ -22,6 +22,17 @@ vagrant:
 
 For other vagrant downloads, see http://downloads.vagrantup.com/.
 
+If you are using Vagrant 4.1, you may see warnings.  To install Vagrant 4.2:
+
+     $ sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" >> /etc/apt/sources.list'
+     $ wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+     $ sudo apt-get update
+     $ sudo apt-get remove virtualbox
+     $ sudo apt-get install virtualbox-4.2
+
+Make sure that virtualbox is not running before you do this. See
+https://www.virtualbox.org/wiki/Linux_Downloads for more information.
+
 Customizing
 -----------
 
