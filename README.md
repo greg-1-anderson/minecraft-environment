@@ -31,6 +31,7 @@ Minecraft Environment project by clicking on the "fork" button in github.
 Next, clone your copy of the project to your local machine:
 
     $ git clone git@github.com:YOURUSERNAME/minecraft-environment.git
+    $ git remote add upstream https://github.com/greg-1-anderson/minecraft-environment.git
 
 Create a branch to save your customizations in:
 
@@ -47,7 +48,7 @@ Later, if you want to pull in changes committed to the Minecraft Environment
 project:
 
     $ git checkout master
-    $ git pull origin master
+    $ git pull upstream master
     $ git checkout MYBRANCHNAME
     $ git rebase master
 
