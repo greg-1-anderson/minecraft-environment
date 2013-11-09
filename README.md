@@ -12,13 +12,13 @@ it will be hosted.
 Prerequisites
 -------------
 
-  $ sudo apt-get install git-core vagrant
+    $ sudo apt-get install git-core vagrant
   
 Vagrant 1.1.5 or later is required.  If you have an earlier version of
 vagrant:
 
-  $ wget http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_i686.deb
-  $ sudo dpkg -i vagrant_i686.deb
+    $ wget http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_i686.deb
+    $ sudo dpkg -i vagrant_i686.deb
 
 For other vagrant downloads, see http://downloads.vagrantup.com/.
 
