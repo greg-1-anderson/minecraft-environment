@@ -7,6 +7,7 @@
 # - $group: The user group for the Minecraft service
 # - $homedir: The directory in which Minecraft stores its data
 # - $version: The version of the Minecraft server to install
+# - $distribution: Which flavor of server to install: minecraft|vanilla or bukkit/craftbukkit
 # - $manage_java: Should this module manage the `java` package?
 # - $manage_screen: Should this module manage the `screen` package?
 # - $manage_curl: Should this module manage the `curl` package?
@@ -25,7 +26,8 @@ class minecraft(
   $user          = 'mcserver',
   $group         = 'mcserver',
   $homedir       = '/opt/minecraft',
-  $version       = '1.7.2',
+  $distribution  = 'minecraft',
+  $version       = 'latest',
   $manage_java   = true,
   $manage_screen = true,
   $manage_curl   = true,
@@ -33,6 +35,15 @@ class minecraft(
   $heap_start    = 512,
 )
 {
+  $minecraft_version = $version ? {
+    # Ideally, we look this up from
+    # https://s3.amazonaws.com/Minecraft.Download/versions/versions.json
+    # n.b. new URL for that resource is:
+    # https://launchermeta.mojang.com/mc/game/version_manifest.json
+    latest => '1.12.1',
+    default => $version,
+  }
+
   if $manage_java {
     class { 'java':
       distribution => 'jre',
@@ -48,7 +59,7 @@ class minecraft(
 
   if $manage_curl {
     package {'curl':
-      before => S3file["${homedir}/minecraft_server.jar"],
+      before => File["${homedir}/minecraft_server.jar"],
     }
   }
 
@@ -62,9 +73,19 @@ class minecraft(
     managehome => true,
   }
 
-  s3file { "${homedir}/minecraft_server.jar":
-    source  => "Minecraft.Download/versions/$version/minecraft_server.$version.jar",
+  s3file { "${homedir}/minecraft_server_$minecraft_version.jar":
+    # Maybe use latest:
+    # http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar
+    # http://s3.amazonaws.com/Minecraft.Download/versions/1.12.1/minecratft_server.1.12.1.jar
+    # Minecraft.Download/versions/$version/minecratft_server.$version.jar
+    source  => "Minecraft.Download/versions/$minecraft_version/minecraft_server.$minecraft_version.jar",
     require => User[$user],
+  }
+
+  file { "${homedir}/minecraft_server.jar":
+    ensure => link,
+    target  => "${homedir}/minecraft_server_$minecraft_version.jar",
+    require => S3File["${homedir}/minecraft_server_$minecraft_version.jar"],
   }
 
   file { "${homedir}/ops.txt":
@@ -125,7 +146,7 @@ class minecraft(
   service { 'minecraft':
     ensure    => running,
     enable    => true,
-    require   => [ File['/etc/init.d/minecraft'], S3File["${homedir}/minecraft_server.jar"], ],
-    subscribe => S3File["${homedir}/minecraft_server.jar"],
+    require   => [ File['/etc/init.d/minecraft'], File["${homedir}/minecraft_server.jar"], ],
+    subscribe => File["${homedir}/minecraft_server.jar"],
   }
 }

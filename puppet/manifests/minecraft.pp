@@ -35,3 +35,19 @@ minecraft::server_prop { 'motd':
 file { '/etc/motd':
   content => "Welcome to the Minecraft Server shell.\n"
 }
+
+# Set up a webserver front-end for our site.
+#apache_httpd { 'prefork':
+#    # todo: use named virtual host?
+#    documentroot => '/srv/www/minecraft',
+#    ssl     => true,
+#    modules => [
+#        'mime',
+#        'dir',
+#        'alias',
+#        'rewrite',
+#        'proxy',
+#    ],
+#    welcome => false,
+#}
+
